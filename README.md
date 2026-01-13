@@ -81,8 +81,8 @@ import { Map, NavigationControl } from 'maplibre-gl';
 
 @Component({
   selector: 'app-root',
-  standalone: true, // 2. ต้องเพิ่มบรรทัดนี้ เพื่อบอกว่าเป็น Standalone Component
-  imports: [CommonModule], // 3. นำเข้า CommonModule ที่นี่แทน NgModule
+  standalone: true, //
+  imports: [CommonModule], 
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
