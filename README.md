@@ -144,3 +144,54 @@ ng serve
 1. **CSS Setup:** ขั้นตอนนี้สำคัญที่สุด เพราะมือใหม่มักลืม import CSS ทำให้แผนที่พัง
 2. **Lifecycle Hook (`ngAfterViewInit`):** แนะนำให้เรียกแผนที่ใน `ngAfterViewInit` แทน `ngOnInit` เพื่อให้มั่นใจว่า DOM (Element `<div>`) ถูกสร้างเสร็จแล้ว
 3. **Cleanup (`ngOnDestroy`):** เพิ่ม Best practice ในการ remove map เพื่อไม่ให้กิน Ram เวลาสลับหน้า
+
+
+## 5. Custom Base Map
+ก่อนอื่นให้ประกาศตัวแปร basemapStyle ขึ้นมาก่อน 
+```typescript
+
+  basemapStyles: Record<'osm' | 'ghyb', any> = {
+    osm: {
+      version: 8,
+      glyphs: '/assets/glyphs/{fontstack}/{range}.pbf',
+      sources: {
+        'osm-tiles': {
+          type: 'raster',
+          tiles: [
+            'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          ],
+          tileSize: 256
+        }
+      },
+      layers: [{ id: 'osm-layer', type: 'raster', source: 'osm-tiles' }]
+    },
+    ghyb: {
+      version: 8,
+      glyphs: '/assets/glyphs/{fontstack}/{range}.pbf',
+      sources: {
+        'google-hybrid': {
+          type: 'raster',
+          tiles: ['https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}'],
+          tileSize: 256
+        }
+      },
+      layers: [{ id: 'google-layer', type: 'raster', source: 'google-hybrid' }]
+    }
+  };
+```
+หลังจากนั้นให้เรียกใช้ basemapStyle ใน function initMap
+```
+  initMap() {
+    this.map = new Map({
+      container: this.mapContainer.nativeElement,
+      style: this.basemapStyles.ghyb,
+      center: [100.5018, 13.7563],
+      zoom: 5
+    });
+
+    this.map.addControl(new NavigationControl(), 'top-right');
+  }
+```
+
