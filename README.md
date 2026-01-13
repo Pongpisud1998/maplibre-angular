@@ -75,11 +75,14 @@ npm install maplibre-gl
 ไฟล์: `src/app/app.component.ts`
 
 ```typescript
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common'; // 1. Import CommonModule เพิ่ม
 import { Map, NavigationControl } from 'maplibre-gl';
 
 @Component({
   selector: 'app-root',
+  standalone: true, // 2. ต้องเพิ่มบรรทัดนี้ เพื่อบอกว่าเป็น Standalone Component
+  imports: [CommonModule], // 3. นำเข้า CommonModule ที่นี่แทน NgModule
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -89,26 +92,29 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   ngAfterViewInit() {
-    // เริ่มต้นสร้างแผนที่
+    if (isPlatformBrowser(this.platformId)) {
+      this.initMap();
+    }
+  }
+
+  initMap() {
     this.map = new Map({
       container: this.mapContainer.nativeElement,
-      // ใช้ Demo Style ของ MapLibre (ไม่ต้องใช้ Key)
-      style: 'https://demotiles.maplibre.org/style.json', 
-      center: [100.5018, 13.7563], // พิกัดเริ่มต้น (กรุงเทพฯ)
+      style: 'https://demotiles.maplibre.org/style.json',
+      center: [100.5018, 13.7563],
       zoom: 10
     });
 
-    // เพิ่มปุ่ม Zoom เข้า/ออก
     this.map.addControl(new NavigationControl(), 'top-right');
   }
 
   ngOnDestroy() {
-    // ล้างค่าเมื่อ Component ถูกทำลายเพื่อป้องกัน Memory Leak
     this.map?.remove();
   }
 }
-
 ```
 
 ---
