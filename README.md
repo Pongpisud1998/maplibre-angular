@@ -181,7 +181,7 @@ ng serve
     }
   };
 ```
-หลังจากนั้นให้เรียกใช้ basemapStyle ใน function initMap
+หลังจากนั้นให้เรียกใช้ basemapStyle ใน function initMap()
 ```
   initMap() {
     this.map = new Map({
