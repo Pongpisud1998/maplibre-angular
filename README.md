@@ -6,6 +6,8 @@
 * [Node.js](https://nodejs.org/) (เวอร์ชัน LTS)
 * [Angular CLI](https://angular.io/cli)
 
+Link ASSET DATA : https://drive.google.com/file/d/1y2Cse4Dja6cyq2IL8nSZcDpE6eFAjhB8/view?usp=sharing
+
 ## 2. Installation (การติดตั้ง)
 
 หลังจากสร้างโปรเจกต์ด้วยคำสั่ง `ng new maplibre-angular` แล้ว ให้ทำตามขั้นตอนดังนี้:
