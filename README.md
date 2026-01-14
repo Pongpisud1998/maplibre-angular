@@ -417,3 +417,20 @@ toggleLayer(id: number, event: any) {
 }
 
 ```
+
+#6.5 toggle Control html
+```
+<div class="layer-control">
+  <h3>Layer Control</h3>
+  <div class="layer-item" *ngFor="let layer of layers">
+    <label>
+      <input 
+        type="checkbox" 
+        [checked]="layer.visible" 
+        (change)="toggleLayer(layer.id, $event)"
+      />
+      {{ layer.name }}
+    </label>
+  </div>
+</div>
+```
